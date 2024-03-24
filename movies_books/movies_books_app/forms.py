@@ -30,3 +30,8 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder' : 'Input your password',
     }))
+
+class ReviewForm(forms.Form):
+    '''Form to add reviews under books'''
+    rating = forms.IntegerField(min_value=1, max_value=5)
+    comment = forms.CharField(widget=forms.Textarea)

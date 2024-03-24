@@ -1,9 +1,19 @@
-{% if request.user.is_authenticated %}
-  <p>{{ request.user.username }}</p>
-  <a href="{% url 'logout' %}">Logout</a>
-{% else %}
-  <a href="{% url 'login' %}">Login</a>
-  <a href="{% url 'signup' %}">Signup</a>
-{% endif %}
+{% extends "base_generic.html" %}
+{% load static %}
+<!-- Home or Landing Page of the Website -->
 
-<p>This is the home page/ initial landing page</p>
+{% block content %}
+  <h1>Books</h1>
+  <div class="books-container">
+      {% for book in book_list %}
+          <div class="book-item">
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="book-cover">
+            <h2>{{ book.title }}</h2>
+            <p>By {{ book.author }}</p>
+            <a href="{% url 'book_detail' book_id=book.id %}">More Info</a>
+          </div>
+      {% empty %}
+          <p>No books found.</p>
+      {% endfor %}
+  </div>
+{% endblock %}

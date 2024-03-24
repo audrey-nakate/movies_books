@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+<!-- Page to display the details of a book. Will also include ratings and reviews -->
+
+{% block title %}
+      <title>{{ book.title }}</title>
+{% endblock %}
+
+{% block content %}
+<h1>{{ book.title }}</h1>
+    <img src="{{ book.cover_image.url }}" alt="Cover image" style="max-width: 100px;">
+    <p><strong>Author:</strong> {{ book.author }}</p>
+    <p><strong>Description:</strong> {{ book.description }}</p>
+{% endblock %}
