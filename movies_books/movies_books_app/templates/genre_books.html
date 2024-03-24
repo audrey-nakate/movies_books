@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+<!-- Page that displays books based on selected genre -->
+
+{% block title %}
+      <title>{{ genre.name }}</title>
+{% endblock %}
+
+{% block content %}
+    {% for book in books %}
+        <div>
+            <h3>{{ book.title }}</h3>
+            <img src="{{ book.cover_image.url }}" alt="Cover image for {{ book.title }}" width="100">
+            <p>Author: {{ book.author }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

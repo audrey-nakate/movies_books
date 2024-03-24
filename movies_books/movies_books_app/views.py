@@ -1,10 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout 
 from .forms import SignupForm, LoginForm
-
-# view for the home page or initial landing page of the website
-def home(request):
-    return render(request, 'home.html')
+from .models import Book, Genre
 
 # view for the website signup page
 def user_signup(request):
@@ -36,3 +33,26 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('home')
+
+# view that will list all the books stored in the database
+# will also be the home page or landing page of the site
+def book_list(request):
+    book_list = Book.objects.all()
+    return render(request, 'home.html', {'book_list': book_list})
+
+# view that handles showing the details of an indivudual book
+def book_detail(request, book_id):
+    book = get_object_or_404(Book, pk=book_id)
+    return render(request, 'book_detail.html', {'book': book})
+
+#view for the search function on the home page
+def search_results(request):
+    query = request.GET.get('query')
+    books = Book.objects.filter(title__icontains=query)
+    return render(request, 'books/search_results.html', {'books': books})
+
+# view that filters books by selected genre
+# def genre_books(request, genre_name):
+#     genre = get_object_or_404(Genre, name=genre_name)
+#     books = Book.objects.filter(genre=genre)
+#     return render(request, 'books/genre_books.html', {'genre': genre, 'books': books})

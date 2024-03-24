@@ -1,0 +1,62 @@
+header {
+    color:white;
+    text-align: center;
+    padding: 20px;
+    font-weight: bolder;
+    display: block;
+    font-size: 3.4rem;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: oblique;
+    text-decoration: underline;
+    box-shadow: inset;
+    background-color: black;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: beige;
+  }
+  .site-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 3rem; /* Adjust font size as needed */
+}
+
+.navigation-bar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f0f0f0;
+    padding: 1rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    margin-right: 1rem;
+    color: #333;
+}
+
+.white-thin-line {
+    border-top: 1px solid white;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-left: 2rem;
+}
+/* Individual column styles */
+.column {
+    flex: 0 0 30%;
+}
+.center {
+    margin-top: 2rem;
+    text-align: center;
+}
+

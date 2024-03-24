@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base_generic_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home_styles.css' %}">
+    {% block title %}
+      <title>Books and Movies</title>
+    {% endblock %}
+  </head>
+  <body>
+    <header>
+      Movie and Books<span class="reads">Company</span>
+    </header>
+    {% block nav %}
+    <div class="navigation-bar">
+      {% if request.user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="nav-link">Login</a>
+        <a href="{% url 'signup' %}" class="nav-link">Signup</a>
+      {% endif %}
+      <!-- Search Form -->
+      <form action="{% url 'search_results' %}" method="get">
+        <input type="text" name="query" placeholder="Search books...">
+        <button type="submit">Search</button>
+      </form>
+    </div>
+    {% endblock %}
+    {% block content %}
+      <!-- default content text -->
+    {% endblock %}
+    <div class="white-thin-line"></div>
+    <div class="flex-container">
+        <div class="column">
+            <div class="company-info">
+                COMPANY
+                <br>
+                About us
+                <br>
+                Careers
+                <br>
+                Terms
+                <br>
+                Privacy
+                <br>
+                Help
+            </div>
+        </div>
+        <div class="column">
+            <div class="work-with-us">
+                WORK WITH US
+                <br>
+                Authors
+                <br>
+                Advertise
+                <br>
+                Authors & ads blog
+                <br>
+                API
+            </div>
+        </div>
+        <div class="column">
+            <div class="connect">
+                CONNECT
+                <br>
+                Movies and Books on Twitter
+                <br>
+                Movies and books on Instagram
+                <br>
+                Movies and Books on LinkedIn
+            </div>
+        </div>
+    </div>
+    <div class="center">
+        © 2024 Movies and Books, Inc.
+    </div>
+  </body>
+</html>
