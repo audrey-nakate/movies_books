@@ -1,0 +1,120 @@
+body, h1, p, ul, li, div {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f0f0f0;
+    color: #333;
+}
+/* Styling the header */
+h1 {
+    background-color: black; 
+    color: #fff; 
+    padding: 20px; 
+}
+
+.book-container {
+    background-color: #fff; 
+    padding: 20px; 
+    margin: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.book-cover {
+    max-width: 100%;
+    height: 300px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.book-details {
+    display: flex;
+    align-items: center;
+}
+.book-label {
+    font-weight: bold;
+    margin-top: 10px; 
+    font-size: 15px;
+}
+.book-info .book-label,
+.book-description .book-label {
+    font-weight: bold;
+    margin-top: 10px; 
+    margin-bottom: 10px;
+    font-size: 30px;
+    margin-left: 1rem;
+}
+.book-description {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-left: 1rem;
+}
+
+/* Style individual reviews */
+.review {
+    background-color: #f9f9f9; 
+    padding: 10px; 
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.reviews {
+    text-align: center;
+    margin-top: 20px;
+}
+textarea#reviewText {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    padding: 10px;
+}
+
+button#submitReview {
+    background-color: #007bff; 
+    color: #fff; 
+    padding: 10px 10px; 
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px; 
+    transition: background-color 0.3s;
+    size: 0px;
+}
+button#submitReview:hover {
+    background-color: #0056b3;
+}
+
+/* Style the star rating */
+.stars {
+    display: inline-block;
+    font-size: 20px;
+}
+.star {
+    color: #ffc107; /* Star color (yellow) */
+    cursor: pointer;
+}
+.star.checked {
+    color: #f1c40f; /* Checked star color (darker yellow) */
+}
+
+.navbar {
+    background-color: black; 
+    color: white; 
+    padding: 30px; 
+    font-size: large;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+.home-link{
+    color: white;
+    text-decoration: none;
+    margin-left: 12rem;
+    text-align: center;
+    margin-left: 2rem;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
