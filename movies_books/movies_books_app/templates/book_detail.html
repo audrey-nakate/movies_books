@@ -1,39 +1,36 @@
+{% extends "base_generic.html" %}
 {% load static %}
-<!DOCTYPE html>
 <!-- Page to display the details of a book. Will also include ratings and reviews. Will only be displayed if a user is logged in -->
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/book_detail_style.css' %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}
     <title>{{ book.title }}Details</title>
     <style>
         /* CSS for the star rating */
         .stars {
             display: inline-block;
         }
+
         .star {
             font-size: 20px;
             cursor: pointer;
+            color: #ac73ff;
         }
+
         .star.checked { 
             color: gold;
         }
+
         .book-description {
             font-size: 18px;
             line-height: 1.5;
         }
     </style>
-</head>
+{% endblock %}
 
-<body>
-    <div class="navbar">
-        <a href="{% url 'home' %}" class="home-link">Home</a>
-    </div>
-    
+{% block content %}
     <div class="book-container">
         <div class="book-details">
-            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="book-cover">
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="book-detail-cover">
             <div class="book-info">
                 <h1 class="book-title">{{ book.title }}</h1>
                 <p class="book-label"><strong>Author:</strong> {{ book.author }}</p>
@@ -47,18 +44,15 @@
         <ul id="reviews">
             {% for review in book.reviews.all %}
                 <li>
-                    <div class="stars">
-                        {% for i in "12345" %}
-                            <span class="star {% if i <= review.rating %}checked{% endif %}" onclick="rateBook('{{ review.id }}', '{{ i }}')">&#9733;</span>
-                        {% endfor %}
-                    </div>
+                    <p>{{ user.username }} commented on {{ review.created_at }}</p>
                     <p>{{ review.comment }}</p>
                 </li>
             {% empty %}
                 <li>No reviews yet.</li>
             {% endfor %}
         </ul>
-    
+        
+
         <!-- Review Input Box -->
         <h2>Add a Review</h2>
         <div class="stars">
@@ -66,26 +60,27 @@
                 <span class="star" onclick="addReview('{{ i }}')">&#9733;</span>
             {% endfor %}
         </div>
-        <textarea id="reviewText" placeholder="Write your review here"></textarea>
-        <button id="submitReview" onclick="submitReview()">Submit Review</button>
+        <textarea id="reviewText" placeholder="Write your thoughts on the book here..."></textarea>
+        <button id="submitReview" onclick="submitReview('{{ book.id }}')">Submit Review</button>
+
     </div>
 
     <!-- JavaScript for User Reviews and Rating Submission -->
     <script>
         function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
             }
-        }
+            return cookieValue;
     }
-    return cookieValue;
-}
         const csrfToken = getCookie('csrftoken');
         function rateBook(reviewId, rating) {
             // Send an AJAX request to update the rating for the review
@@ -106,10 +101,10 @@
             const reviewText = document.getElementById("reviewText");
             reviewText.value = `Rating: ${rating}/5\n\n`;
         }
-        function submitReview() {
+        function submitReview(bookId) {
             // Get the review text from the input box
             const reviewText = document.getElementById("reviewText").value;
-    
+
             // Extract the rating from the review text
             const ratingMatch = reviewText.match(/Rating: (\d)\/5/);
             let rating = 0;
@@ -120,9 +115,10 @@
                 alert("Please provide a rating.");
                 return;
             }
+
     // Create a new AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/books/submit_review/", true);
+    xhr.open("POST", `/books/${bookId}/submit_review/`, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken')); // Set CSRF token after initializing xhr
     xhr.onreadystatechange = function () {
@@ -143,15 +139,14 @@
             
             // Clear the review input box
             document.getElementById("reviewText").value = "";
-        } else {
-                // Error handling - show error message
-                alert("Error submitting review. Please try again later.");
-            }
+        }
     };
-    
+
     // Send the review data as JSON
     const data = JSON.stringify({ rating: rating, comment: reviewText });
     xhr.send(data);
-}
+    }
+
     </script>
-</body>
+{% endblock %}
+

@@ -1,19 +1,25 @@
-.books-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px;
+.books-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: nowrap; /* Prevent wrapping to the next line */
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
 }
 
 .book-item {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-    background-color: bisque;
+    margin-top: 10px;
+    margin-right: 10px; /* Adjust the margin as needed for spacing between book covers */
+    object-fit: cover; /* Ensure images fill the available space */
+}
+.book-item:hover {
+    transform: scale(1.1); /* Scale the book cover by 5% on hover */
+}
+
+.book-item:last-child {
+    margin-right: 0; /* Remove margin from the last book cover on a line */
 }
 
 .book-cover {
-    max-width: 100%;
+    max-width: 150px;
     height: 200px;
-    object-fit: cover; /* Ensure images fill the available space */
 }
