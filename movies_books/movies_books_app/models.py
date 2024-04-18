@@ -18,6 +18,7 @@ class Book(models.Model):
     
 class Review(models.Model):
     '''Model for reviews made by users'''
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='reviews')
     rating = models.IntegerField()
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

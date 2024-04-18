@@ -1,5 +1,6 @@
+/* For the Company Title (TBD) header */
 header {
-    color:white;
+    color: #fffeff;
     text-align: center;
     padding: 20px;
     font-weight: bolder;
@@ -9,34 +10,39 @@ header {
     font-style: oblique;
     text-decoration: underline;
     box-shadow: inset;
-    background-color: black;
+    background-color: #ac73ff;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    background-color: beige;
+/* for the overall body of the website */
+body, html {
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+    background-color: whitesmoke;
   }
-  .site-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
 
 h1 {
     font-size: 3rem; /* Adjust font size as needed */
 }
 
+/* css options for the navigation bar on the home page */
 .navigation-bar {
     display: flex;
-    justify-content: space-between;
-    background-color: #f0f0f0;
+    justify-content: space-around;
+    background-color: #e6d7ff;
     padding: 1rem;
 }
 
+/* css options for the links on the navigation bar */
 .nav-link {
     text-decoration: none;
+    text-transform: uppercase;
     margin-right: 1rem;
     color: #333;
+}
+
+.nav-link:hover {
+    color: #ac73ff;
 }
 
 .white-thin-line {

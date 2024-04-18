@@ -22,12 +22,12 @@ from movies_books_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',  views.book_list, name='home'),
+    path('',  views.book_list, name='books_home'),
     path('search/', views.search_results, name='search_results'),
     path('login/', views.user_login, name='login'),
     path('signup/', views.user_signup, name='signup'),
     path('logout/', views.user_logout, name='logout'),
     path('book_detail/<book_id>/',views.book_detail,name ='book_detail'),
-    path('books/submit_review/', views.submit_review, name='submit_review'),
+    path('books/<int:book_id>/submit_review/', views.submit_review, name='submit_review'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

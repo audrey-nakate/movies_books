@@ -5,27 +5,30 @@
   <head>
     <link rel="stylesheet" type="text/css" href="{% static 'css/base_generic_style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/home_styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/book_detail_style.css' %}">
     {% block title %}
       <title>Books and Movies</title>
     {% endblock %}
   </head>
   <body>
     <header>
-      Movie and Books<span class="reads">Company</span>
+      Movie and Books<span class="company">Company</span>
     </header>
     {% block nav %}
     <div class="navigation-bar">
+      <a href="{% url 'books_home' %}" class="nav-link">Books</a>
+      <a href=# class="nav-link">Movies</a>
       {% if request.user.is_authenticated %}
+        <!-- Search Form -->
+        <form action="{% url 'search_results' %}" method="get">{% csrf_token %}
+          <input type="text" name="query" placeholder="Search books...">
+          <button type="submit">Search</button>
+        </form>
         <a href="{% url 'logout' %}" class="nav-link">Logout</a>
       {% else %}
         <a href="{% url 'login' %}" class="nav-link">Login</a>
         <a href="{% url 'signup' %}" class="nav-link">Signup</a>
       {% endif %}
-      <!-- Search Form -->
-      <form action="{% url 'search_results' %}" method="get">
-        <input type="text" name="query" placeholder="Search books...">
-        <button type="submit">Search</button>
-      </form>
     </div>
     {% endblock %}
     {% block content %}
@@ -33,6 +36,7 @@
     {% endblock %}
     <div class="white-thin-line"></div>
     <div class="flex-container">
+      <!-- columns for the bottom navigation section -->
         <div class="column">
             <div class="company-info">
                 COMPANY

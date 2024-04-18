@@ -27,7 +27,7 @@ def user_login(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)    
-                return redirect('home')
+                return redirect('books_home')
     else:
         form = LoginForm()
     return render(request, 'registration/login.html', {'form': form})
@@ -35,13 +35,13 @@ def user_login(request):
 # view for the website logout page
 def user_logout(request):
     logout(request)
-    return redirect('home')
+    return redirect('books_home')
 
 # view that will list all the books stored in the database
 # will also be the home page or landing page of the site
 def book_list(request):
     book_list = Book.objects.all()
-    return render(request, 'home.html', {'book_list': book_list})
+    return render(request, 'books_home.html', {'book_list': book_list})
 
 # view that handles showing the details of an indivudual book
 @login_required(login_url='login')
@@ -57,14 +57,16 @@ def search_results(request):
 
 #view to handle user review submissions
 @require_POST
-def submit_review(request):
+def submit_review(request, book_id):
     # Extract the review data from the POST request
-    data = request.POST
+    import json
+    data = json.loads(request.body.decode("utf-8"))
     rating = data.get('rating')
     comment = data.get('comment')
 
+    book = get_object_or_404(Book, pk=book_id) #book_id is used in the submit_review url to associate a review with a book
     # Create a new Review object and save it to the database
-    review = Review.objects.create(rating=rating, comment=comment)
+    review = Review.objects.create(book=book, rating=rating, comment=comment)
     # Return a JSON response with the newly created review data
     return JsonResponse({'id': review.id, 'rating': review.rating, 'comment': review.comment})
 

@@ -1,42 +1,41 @@
-body, h1, p, ul, li, div {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background-color: #f0f0f0;
-    color: #333;
-}
-/* Styling the header */
-h1 {
-    background-color: black; 
-    color: #fff; 
-    padding: 20px; 
-}
-
+/* css for the container in which the book details and reviews are wrapped around */
 .book-container {
     background-color: #fff; 
     padding: 20px; 
     margin: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 30px #ac73ff;
 }
 
-.book-cover {
-    max-width: 100%;
-    height: 300px;
-    border: 1px solid #ddd;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+/* css options for the book title */
+.book-title {
+    background-color: black;
+    color: #fff;
+    padding: 20px;
 }
+
+/* css for the displayed cover of the book */
+.book-detail-cover {
+    max-width: 100%;
+    height: 400px;
+    margin-top: 31.8px;
+    border: 1px solid #ddd;
+    box-shadow: #ac73ff;
+}
+
+/* css for the book details item */
 .book-details {
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* Align items such as book cover and book title to the start of the container */
 }
+
+/* css for the item labels on the page */
 .book-label {
     font-weight: bold;
     margin-top: 10px; 
     font-size: 15px;
 }
+
 .book-info .book-label,
 .book-description .book-label {
     font-weight: bold;
@@ -45,13 +44,15 @@ h1 {
     font-size: 30px;
     margin-left: 1rem;
 }
+
 .book-description {
     font-size: 18px;
     line-height: 1.5;
     margin-left: 1rem;
+    text-align: justify;
 }
 
-/* Style individual reviews */
+/* css style options for individual reviews */
 .review {
     background-color: #f9f9f9; 
     padding: 10px; 
@@ -63,16 +64,20 @@ h1 {
     text-align: center;
     margin-top: 20px;
 }
+/* css style options for the review text box */
 textarea#reviewText {
-    width: 100%;
-    height: 150px;
+    width: 98.5%;
+    height: 100px;
+    border-radius: 5px;
     margin-bottom: 10px;
+    font-family: 'Times New Roman', Times, serif;
     font-size: 18px;
     padding: 10px;
 }
 
+/* css options for the submit review button */
 button#submitReview {
-    background-color: #007bff; 
+    background-color: #ac73ff; 
     color: #fff; 
     padding: 10px 10px; 
     border: none; 
@@ -83,7 +88,7 @@ button#submitReview {
     size: 0px;
 }
 button#submitReview:hover {
-    background-color: #0056b3;
+    background-color: #8c84e4;
 }
 
 /* Style the star rating */
@@ -99,22 +104,4 @@ button#submitReview:hover {
     color: #f1c40f; /* Checked star color (darker yellow) */
 }
 
-.navbar {
-    background-color: black; 
-    color: white; 
-    padding: 30px; 
-    font-size: large;
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-}
-.home-link{
-    color: white;
-    text-decoration: none;
-    margin-left: 12rem;
-    text-align: center;
-    margin-left: 2rem;
-    font-size: 20px;
-    transition: color 0.3s;
-}
 
