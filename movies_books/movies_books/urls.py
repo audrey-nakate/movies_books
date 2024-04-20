@@ -29,5 +29,7 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('book_detail/<book_id>/',views.book_detail,name ='book_detail'),
     path('books/<int:book_id>/submit_review/', views.submit_review, name='submit_review'),
+    path('profile/<str:username>/', views.view_profile, name='view_profile'),
+    path('profile/<str:username>/update/', views.update_profile, name='update_profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

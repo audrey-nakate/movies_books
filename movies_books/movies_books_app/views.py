@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from .forms import SignupForm, LoginForm
+from .forms import SignupForm, LoginForm, UpdateProfileForm
+from django.contrib.auth.models import User
 from .models import Book, Genre, Review
 
 # view for the website signup page
@@ -70,6 +72,28 @@ def submit_review(request, book_id):
     # Return a JSON response with the newly created review data
     return JsonResponse({'id': review.id, 'rating': review.rating, 'comment': review.comment})
 
+# view that handles the profile page of the user
+@login_required
+def update_profile(request, username):
+    user = get_object_or_404(User, username=username)
+    if request.method == 'POST':
+        profile = request.user.profile
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=profile)
+
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect(to='view_profile', username=user.username)
+    else:
+        profile_form = UpdateProfileForm(instance=request.user.profile)
+
+    return render(request, 'update_profile.html', {'form': profile_form, 'user':user})
+
+@login_required
+def view_profile(request, username):
+    user = get_object_or_404(User, username=username)
+    profile = user.profile
+    return render(request, "view_profile.html", {'user':user, 'profile':profile})
 
 # view that filters books by selected genre
 # def genre_books(request, genre_name):

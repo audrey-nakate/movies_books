@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/base_generic_style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/home_styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/book_detail_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profile_page.css' %}">
     {% block title %}
       <title>Books and Movies</title>
     {% endblock %}
@@ -20,10 +22,11 @@
       <a href=# class="nav-link">Movies</a>
       {% if request.user.is_authenticated %}
         <!-- Search Form -->
-        <form action="{% url 'search_results' %}" method="get">{% csrf_token %}
-          <input type="text" name="query" placeholder="Search books...">
-          <button type="submit">Search</button>
+        <form class="search-form" action="{% url 'search_results' %}" method="get">{% csrf_token %}
+          <input class="search-input" type="text" name="query" placeholder="Search">
+          <button type="submit" id="searchButton">Search</button>
         </form>
+        <a href="{% url 'view_profile' username=user.username %}" class="nav-link">Profile</a>
         <a href="{% url 'logout' %}" class="nav-link">Logout</a>
       {% else %}
         <a href="{% url 'login' %}" class="nav-link">Login</a>
@@ -35,6 +38,8 @@
       <!-- default content text -->
     {% endblock %}
     <div class="white-thin-line"></div>
+  </body>
+  <footer>
     <div class="flex-container">
       <!-- columns for the bottom navigation section -->
         <div class="column">
@@ -80,5 +85,5 @@
     <div class="center">
         © 2024 Movies and Books, Inc.
     </div>
-  </body>
+  </footer>
 </html>

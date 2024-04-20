@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}<title>{{user.username}} Profile Update</title>{% endblock %}
+
+{% block content %}
+    <section class="update-profile-section">
+        <h1>{{user.username}} Profile Update</h1>
+        <div class="profile-info">
+            <form method="post" action="{% url 'update_profile' username=user.username %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <a><button type="submit">Update</button></a>
+            </form>
+    </section>
+{% endblock %}

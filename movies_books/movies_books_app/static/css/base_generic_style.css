@@ -15,10 +15,10 @@ header {
 
 /* for the overall body of the website */
 body, html {
-    margin: 0px;
-    padding: 0px;
-    overflow-x: hidden;
     background-color: whitesmoke;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
   }
 
 h1 {
@@ -50,6 +50,9 @@ h1 {
     margin: 20px 0;
     width: 100%;
 }
+footer {
+    display: block;
+}
 
 .flex-container {
     display: flex;
@@ -66,3 +69,15 @@ h1 {
     text-align: center;
 }
 
+button#searchButton {
+    background-color: #ac73ff;
+    color: #fff;
+    font-family: 'Times New Roman', Times, serif;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button#searchButton:hover {
+    background-color: #8c84e4;
+}

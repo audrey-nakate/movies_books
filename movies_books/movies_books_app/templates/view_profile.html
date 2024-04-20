@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}<title>{{user.username}}</title>{% endblock %}
+
+{% block content %}
+    <div class="profile-container">
+        <div class="profile-image">
+            <img src="{{ profile.profile_image.url }}" alt="Profile Picture">
+        </div>
+        <div class="profile-info">
+            <h1>{{user.username}}</h1>
+            <p>{{profile.bio}}</p>
+            <br>
+            <h2>Recently Read</h2>
+            <br>
+            <h2>Recently Watched</h2>
+            <br>
+            <br>
+            <a href="{% url 'update_profile' username=user.username%}"><button id="updateProfile">Update Profile</button></a>
+        </div>
+    </div>
+{% endblock %}

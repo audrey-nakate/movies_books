@@ -1,0 +1,55 @@
+/* Form Styling */
+.update-profile-section {
+    background-color: whitesmoke;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #ac73ff;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+.update-profile-section h1 {
+    font-size: 32px;
+    font-style: oblique;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.update-profile-section form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* styling for the form labels */
+.update-profile-section form label {
+    display: block;
+    font-weight: 1000;
+    margin-bottom: 10px;
+}
+
+/* styling for the form input text */
+.update-profile-section form input[type="file"],
+.update-profile-section form textarea {
+    width: 100%;
+    padding: 10px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+/* styling for the update button */
+.update-profile-section form button {
+    background-color: #ac73ff;
+    color: #fff;
+    border: none;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.update-profile-section form button:hover {
+    background-color: #8c84e4;
+}
