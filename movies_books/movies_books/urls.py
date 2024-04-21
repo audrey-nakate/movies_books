@@ -31,5 +31,7 @@ urlpatterns = [
     path('books/<int:book_id>/submit_review/', views.submit_review, name='submit_review'),
     path('profile/<str:username>/', views.view_profile, name='view_profile'),
     path('profile/<str:username>/update/', views.update_profile, name='update_profile'),
+    path('create_chatroom/', views.create_chatroom, name='create_chatroom'),
+    path('book_discussion/<int:chatroom_id>/', views.view_chatroom, name='view_chatroom'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

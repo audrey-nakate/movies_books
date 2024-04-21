@@ -1,0 +1,53 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}<title>Chatroom: {{ chatroom.name }}</title>{% endblock %}
+
+{% block content %}
+<h1>Chatroom: {{ chatroom.name }}</h1>
+<div id="messages">
+    {% for message in messages %}
+        <p><strong>{{ message.sender.username }}:</strong> {{ message.content }}</p>
+    {% endfor %}
+</div>
+<form id="message-form" method="post">
+    {% csrf_token %}
+    <input type="text" id="message" name="message" placeholder="Type your message...">
+    <button type="submit">Send</button>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var chatSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/chat/{{ chatroom.id }}/'
+    );
+
+    chatSocket.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        var message = data['message'];
+        var username = data['username'];
+        
+        // Check if the sender is the current user to avoid duplication
+        if (username !== '{{ request.user.username }}') {
+            var messageElement = document.createElement('p');
+            messageElement.innerHTML = '<strong>' + username + ':</strong> ' + message;
+            document.querySelector('#messages').appendChild(messageElement);
+        }
+    };
+    document.querySelector('#message-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var messageInputDom = document.querySelector('#message');
+        var message = messageInputDom.value;
+        // Append the message to the chatroom without waiting for the WebSocket response
+        var messageElement = document.createElement('p');
+        messageElement.innerHTML = '<strong>' + '{{ request.user.username }}' + ':</strong> ' + message;
+        document.querySelector('#messages').appendChild(messageElement);
+        chatSocket.send(JSON.stringify({
+            'message': message
+        }));
+        messageInputDom.value = '';
+    });
+});
+</script>
+{% endblock %}

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from channels.auth import AuthMiddlewareStack
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
     'movies_books_app',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +74,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'movies_books.wsgi.application'
+# telling django where to find the code responsible for handling websocket connections
+ASGI_APPLICATION = 'movies_books.asgi.application'
 
 
 # Database
@@ -82,6 +88,12 @@ DATABASES = {
     }
 }
 
+# in memory layer will be used by Channels to manage communication between different parts of the application
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

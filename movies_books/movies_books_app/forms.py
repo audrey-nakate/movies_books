@@ -53,3 +53,17 @@ class UpdateProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UpdateProfileForm, self).__init__(*args, **kwargs)
         self.fields['profile_image'].widget.attrs['accept'] = 'image/*' # to ensure that only image files are accepted.
+
+class CreateChatRoomForm(forms.ModelForm):
+    ''''Form for users to update their profile page information'''
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name your chatroom'}))
+    room_image = forms.ImageField(widget=forms.FileInput)
+    description = forms.CharField(widget=forms.Textarea(attrs={'rows': 8, 'placeholder': 'Tell the community about yourself.'}))
+
+    class Meta:
+        model = Profile
+        fields = ['name', 'room_image', 'description']
+
+    def __init__(self, *args, **kwargs):
+        super(CreateChatRoomForm, self).__init__(*args, **kwargs)
+        self.fields['room_image'].widget.attrs['accept'] = 'image/*'
