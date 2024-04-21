@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Genre(models.Model):
     '''model for the different genres of books and movies'''
@@ -36,3 +37,22 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class ChatRoom(models.Model):
+    '''Model for the chatrooms that will be used to discuss books'''
+    # book = models.ForeignKey('Book', on_delete=models.CASCADE, related_name='book_chatroom') will include this another time, to allow a chatroom to be associated with a book
+    name = models.CharField(max_length=200)
+    description = models.TextField(max_length=500)
+    room_image = models.ImageField(default='default_room_image.png', upload_to='room_images/')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_chatroom')
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"ChatRoom for {self.book.title}"
+    
+class Message(models.Model):
+    '''Model for the messages that will be send in the different chatrooms'''
+    chatroom = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)

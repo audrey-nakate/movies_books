@@ -4,9 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from .forms import SignupForm, LoginForm, UpdateProfileForm
+from .forms import SignupForm, LoginForm, UpdateProfileForm, CreateChatRoomForm
 from django.contrib.auth.models import User
-from .models import Book, Genre, Review
+from .models import Book, Genre, Review, ChatRoom, Message
 
 # view for the website signup page
 def user_signup(request):
@@ -72,8 +72,8 @@ def submit_review(request, book_id):
     # Return a JSON response with the newly created review data
     return JsonResponse({'id': review.id, 'rating': review.rating, 'comment': review.comment})
 
-# view that handles the profile page of the user
-@login_required
+# view that handles updates made to the profile page of the user
+@login_required(login_url='login')
 def update_profile(request, username):
     user = get_object_or_404(User, username=username)
     if request.method == 'POST':
@@ -89,11 +89,42 @@ def update_profile(request, username):
 
     return render(request, 'update_profile.html', {'form': profile_form, 'user':user})
 
-@login_required
+# view that handles the profile page of the user
+@login_required(login_url='login')
 def view_profile(request, username):
     user = get_object_or_404(User, username=username)
     profile = user.profile
     return render(request, "view_profile.html", {'user':user, 'profile':profile})
+
+@login_required(login_url='login')
+def create_chatroom(request):
+    if request.method == 'POST':
+        create_chatroom_form = CreateChatRoomForm(request.POST, request.FILES)
+
+        if create_chatroom_form.is_valid():
+            name = request.POST.get('name')
+            room_image = request.POST.get('room_image')
+            description = request.POST.get('description')
+            chatroom = ChatRoom.objects.create(name=name, room_image=room_image, description=description, created_by=request.user)
+            return redirect(to='view_chatroom', chatroom_id=chatroom.id)
+    else:
+        create_chatroom_form = CreateChatRoomForm()
+        
+    return render(request, 'create_chatroom.html', {'form': create_chatroom_form})
+
+@login_required(login_url='login')
+def view_chatroom(request, chatroom_id):
+    chatroom = ChatRoom.objects.get(id=chatroom_id)
+    messages = Message.objects.filter(chatroom=chatroom)
+    return render(request, 'view_chatroom.html', {'chatroom': chatroom, 'messages': messages})
+
+@login_required(login_url='login')
+def send_message(request, chatroom_id):
+    if request.method == 'POST':
+        chatroom = ChatRoom.objects.get(id=chatroom_id)
+        content = request.POST.get('content')
+        Message.objects.create(chatroom=chatroom, sender=request.user, content=content)
+        return redirect('view_chatroom', chatroom_id=chatroom_id)
 
 # view that filters books by selected genre
 # def genre_books(request, genre_name):
