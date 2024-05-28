@@ -27,6 +27,7 @@
           <button type="submit" id="searchButton">Search</button>
         </form>
         <a href="{% url 'view_profile' username=user.username %}" class="nav-link">Profile</a>
+        <a href="{% url 'chatroom_list' %}" class="nav-link">Chat Rooms</a>
         <a href="{% url 'logout' %}" class="nav-link">Logout</a>
       {% else %}
         <a href="{% url 'login' %}" class="nav-link">Login</a>

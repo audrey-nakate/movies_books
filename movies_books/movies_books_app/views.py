@@ -125,6 +125,12 @@ def send_message(request, chatroom_id):
         content = request.POST.get('content')
         Message.objects.create(chatroom=chatroom, sender=request.user, content=content)
         return redirect('view_chatroom', chatroom_id=chatroom_id)
+    
+
+# view that will list all the chatrooms that have been created
+def chatroom_list(request):
+    chatroom_list = ChatRoom.objects.all()
+    return render(request, 'chatroom_list.html', {'chatroom_list': chatroom_list})
 
 # view that filters books by selected genre
 # def genre_books(request, genre_name):
