@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+{% load static %}
+<!-- Home or Landing Page of the Website Displays the books available on the website -->
+
+{% block content %}
+  <div class="books-list">
+      {% for chatroom in chatroom_list %}
+          <div class="book-item">
+            <a href="{% url 'view_chatroom' chatroom_id=chatroom.id %}">
+              <img src="{{ chatroom.room_image.url }}" alt="{{ chatroom.name }}" class="book-cover">
+            </a>
+          </div>
+      {% empty %}
+          <p>No books found.</p>
+      {% endfor %}
+  </div>
+{% endblock %}

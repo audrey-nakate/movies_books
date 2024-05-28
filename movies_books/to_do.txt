@@ -1,6 +1,7 @@
 IN TERMS OF INTERFACE IMPLEMENTATION
-create a page that displays all the chat rooms
+create a page that displays all the chat rooms - Done but qn : should a chatroom be created for each book that's created or should users create their own chatrooms. The current implementation is for users creating their own chatrooms.
 want to make it a hybrid such that a chatroom is created automatically for each book and movie + users can create their own chatrooms.
 make it such that the navigation bar stays on top when a user scrolls
 add a sort by feature on the front page
 actually implement the search feature
+create page that allows users to delete the chatrooms

@@ -43,12 +43,12 @@ class ChatRoom(models.Model):
     # book = models.ForeignKey('Book', on_delete=models.CASCADE, related_name='book_chatroom') will include this another time, to allow a chatroom to be associated with a book
     name = models.CharField(max_length=200)
     description = models.TextField(max_length=500)
-    room_image = models.ImageField(default='default_room_image.png', upload_to='room_images/')
+    room_image = models.ImageField(default='default_room_image.jpeg', upload_to='room_images/', null=False)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_chatroom')
     created_at = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
-        return f"ChatRoom for {self.book.title}"
+    # def __str__(self):
+    #     return f"ChatRoom for {self.book.title}"
     
 class Message(models.Model):
     '''Model for the messages that will be send in the different chatrooms'''
