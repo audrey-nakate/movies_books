@@ -3,15 +3,19 @@
 <!-- Home or Landing Page of the Website Displays the books available on the website -->
 
 {% block content %}
-  <div class="books-list">
+  <div class="chatroom-list">
       {% for chatroom in chatroom_list %}
-          <div class="book-item">
+          <div class="chatroom-details">
             <a href="{% url 'view_chatroom' chatroom_id=chatroom.id %}">
               <img src="{{ chatroom.room_image.url }}" alt="{{ chatroom.name }}" class="book-cover">
             </a>
+            <div class="book-info">
+              <p class="book-description">{{chatroom.description}}</p> 
+            </div>
           </div>
       {% empty %}
-          <p>No books found.</p>
+          <p>No Chatrooms Available.</p>
       {% endfor %}
   </div>
+    <a href="{% url 'create_chatroom' %}"><button id="createChatroom">Create Chatroom</button></a>
 {% endblock %}

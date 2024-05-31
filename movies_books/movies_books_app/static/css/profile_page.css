@@ -10,7 +10,7 @@
     height: 150px;
     border-radius: 50%; /* Make the profile image circular */
     overflow: hidden; /* Hides overflow to maintain circular shape */
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 .profile-image img {
@@ -22,6 +22,10 @@
 /* css styling for the other info on the page */
 .profile-info {
     flex: 1; /* Take remaining space */
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .profile-info h1 {

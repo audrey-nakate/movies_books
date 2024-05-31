@@ -22,4 +22,35 @@
 .book-cover {
     max-width: 150px;
     height: 200px;
+    border-radius: 10px;
+}
+
+.chatroom-list {
+    list-style: none;
+    column-count: 2;
+    column-gap: 200px;
+    padding: 0;
+    display: flex;
+    flex-wrap: nowrap; /* Prevent wrapping to the next line */
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+}
+
+.chatroom-details {
+    padding: 10px;
+    display: flex;
+    align-items: flex-start;
+}
+
+button#createChatroom {
+    background-color: #ac73ff;
+    color: #fff;
+    font-family: 'Times New Roman', Times, serif;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+button#createChatroom:hover {
+    background-color: #8c84e4;
 }

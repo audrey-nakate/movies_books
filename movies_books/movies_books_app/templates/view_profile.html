@@ -16,6 +16,18 @@
             <br>
             <h2>Recently Watched</h2>
             <br>
+            <h2>Chat Rooms</h2>
+            <div class="chatroom-list">
+                {% for chatroom in chatrooms %}
+                    <div class="chatroom-details">
+                      <a href="{% url 'view_chatroom' chatroom_id=chatroom.id %}">
+                        <img src="{{ chatroom.room_image.url }}" alt="{{ chatroom.name }}" class="book-cover">
+                      </a>
+                    </div>
+                {% empty %}
+                    <p>{{user.username}} not part of any chatrooms</p>
+                {% endfor %}
+            </div>
             <br>
             <a href="{% url 'update_profile' username=user.username%}"><button id="updateProfile">Update Profile</button></a>
         </div>
