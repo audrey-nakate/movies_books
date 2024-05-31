@@ -2,7 +2,6 @@
 .update-profile-section {
     background-color: whitesmoke;
     border-radius: 5px;
-    box-shadow: 0 0 10px #ac73ff;
     box-sizing: border-box;
     padding: 20px;
 }
@@ -28,7 +27,10 @@
 
 /* styling for the form input text */
 .update-profile-section form input[type="file"],
-.update-profile-section form textarea {
+.update-profile-section form textarea,
+.update-profile-section form input[type="text"],
+.update-profile-section form input[type="email"],
+.update-profile-section form input[type="password"] {
     width: 100%;
     padding: 10px;
     font-family: 'Times New Roman', Times, serif;
@@ -52,4 +54,11 @@
 
 .update-profile-section form button:hover {
     background-color: #8c84e4;
+}
+
+.prompts {
+    text-align: center;
+    font-style: italic;
+    font-size: 14px;
+    /* can't use font-weight when font-size is being used, unless you choose properties such as bold, bolder and lighter */
 }

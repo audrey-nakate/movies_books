@@ -1,0 +1,57 @@
+/* Style for the chatroom header */
+h1 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Style for chat messages */
+#messages {
+    margin-bottom: 20px;
+}
+
+#messages p {
+    margin: 5px 0;
+}
+
+#messages strong {
+    font-weight: bold;
+    color: #ac73ff; /* Color for usernames */
+}
+
+/* Style for the message input form */
+.profile-info {
+    text-align: center;
+}
+
+#message-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#message {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    padding-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#message::placeholder {
+    color: #999; /* Color for placeholder text */
+}
+
+button[type="submit"] {
+    background-color: #ac73ff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #8c84e4;
+}

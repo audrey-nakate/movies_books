@@ -94,7 +94,8 @@ def update_profile(request, username):
 def view_profile(request, username):
     user = get_object_or_404(User, username=username)
     profile = user.profile
-    return render(request, "view_profile.html", {'user':user, 'profile':profile})
+    chatrooms = ChatRoom.objects.filter(users=user)
+    return render(request, "view_profile.html", {'user':user, 'profile':profile, 'chatrooms': chatrooms})
 
 @login_required(login_url='login')
 def create_chatroom(request):

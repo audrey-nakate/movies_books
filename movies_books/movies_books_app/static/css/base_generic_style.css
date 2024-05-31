@@ -1,3 +1,12 @@
+/* making the navigation bar and header fixed at the top of the website */
+.nav-and-header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
 /* For the Company Title (TBD) header */
 header {
     color: #fffeff;
@@ -16,8 +25,8 @@ header {
 /* for the overall body of the website */
 body, html {
     background-color: whitesmoke;
-    margin: 0;
-    padding: 0;
+    margin-top: 80px;
+    margin-bottom: 90px;
     overflow-x: hidden;
   }
 
@@ -47,26 +56,33 @@ h1 {
 
 .white-thin-line {
     border-top: 1px solid white;
-    margin: 20px 0;
     width: 100%;
 }
 footer {
     display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #333;
 }
 
 .flex-container {
+    padding-top: 10px;
     display: flex;
     justify-content: space-between;
     width: 100%;
     margin-left: 2rem;
+    color: #fff;
 }
 /* Individual column styles */
 .column {
     flex: 0 0 30%;
 }
 .center {
-    margin-top: 2rem;
     text-align: center;
+    color: #fff;
 }
 
 button#searchButton {

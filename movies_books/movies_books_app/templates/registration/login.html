@@ -1,28 +1,31 @@
-<h1>Login</h1>
-<form method="POST">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label>Username</label><br>
-        {{ form.username}}
-    </div>
+{% extends "base_generic.html" %}
+{% load static %}
 
-    <div>
-        <label>Password</label><br>
-        {{ form.password }}
-    </div>
+{% block title %}<title>User Login</title>{% endblock %}
 
-    {% if form.errors or form.non_field_errors %}
-        {% for field in form%}
-           {{ field.errors}}
-        {% endfor %}
+{% block content%}
+    <section class="update-profile-section">
+        <h1>Login</h1>
+        <div class="profile-info">
+            <form method="POST" action="{% url 'login' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+        
+                {% if form.errors or form.non_field_errors %}
+                    {% for field in form%}
+                    {{ field.errors}}
+                    {% endfor %}
+        
+                    {{ form.non_field_errors}}
+                {% endif %} 
 
-        {{ form.non_field_errors}}
+                <a><button type="submit">Login</button></a>
+            </form>
+        </div>
 
-       </div>
-    {% endif %}
-
-    <input type="submit" value="Login">
-</form>
-
-<p><a href="{% url 'signup' %}">Dont have Account Create</a></p>
-<p><a href="{% url 'books_home' %}">Back to Home Page</a></p>
+        <div class="prompts">
+            <p>Don't have Account? <a href="{% url 'signup' %}">Create</a></p>
+            <p>Back to <a href="{% url 'books_home' %}">Home</a> Page</p>
+        </div>
+    </section>
+{% endblock %}

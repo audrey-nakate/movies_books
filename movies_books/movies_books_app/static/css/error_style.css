@@ -1,0 +1,22 @@
+/* Style for error messages in the login and sign up  form */
+.errorlist {
+    color: red;
+    font-size: 14px; 
+    font-style: italic;
+}
+
+.errorlist li {
+    list-style-type: none; /* Remove bullet points from error messages */
+    margin-bottom: 5px;
+}
+
+/* Style for individual error messages */
+.error {
+    font-weight: bold;
+}
+
+.helptext {
+    font-style: italic;
+    padding-bottom: 5px;
+    font-weight: lighter;
+}
