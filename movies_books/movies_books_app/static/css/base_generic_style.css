@@ -26,12 +26,17 @@ header {
 body, html {
     background-color: whitesmoke;
     margin-top: 80px;
-    margin-bottom: 90px;
     overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
   }
 
 h1 {
-    font-size: 3rem; /* Adjust font size as needed */
+    font-size: 3rem;
 }
 
 /* css options for the navigation bar on the home page */
@@ -60,12 +65,14 @@ h1 {
 }
 footer {
     display: block;
-    position: fixed;
+    margin-top: auto;
     bottom: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
     background-color: #333;
+    margin-left: 0%;
+    margin-right: 0%;
 }
 
 .flex-container {

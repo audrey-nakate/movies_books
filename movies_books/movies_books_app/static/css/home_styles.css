@@ -1,3 +1,7 @@
+.books-list-container{
+    margin-left: 10px;
+}
+
 .books-list {
     list-style: none;
     padding: 0;
@@ -26,13 +30,19 @@
 }
 
 .chatroom-list {
+    margin-left: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    grid-gap: 20px; 
     list-style: none;
-    column-count: 2;
-    column-gap: 200px;
-    padding: 0;
-    display: flex;
-    flex-wrap: nowrap; /* Prevent wrapping to the next line */
+    padding: 0; /* Prevent wrapping to the next line */
     overflow-x: auto; /* Enable horizontal scrolling if needed */
+}
+
+.chatroom-name {
+    text-transform: uppercase;
+    margin-left: 1rem;
+    font-size: 20px;
 }
 
 .chatroom-details {
@@ -49,7 +59,8 @@ button#createChatroom {
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    margin-left: 10px;
+    margin-left: 20px;
+    margin-top: 10px;
 }
 button#createChatroom:hover {
     background-color: #8c84e4;
