@@ -31,7 +31,6 @@
           </form>
           <a href="{% url 'chatroom_list' %}" class="nav-link">Chat Rooms</a>
           <a href="{% url 'view_profile' username=user.username %}" class="nav-link">Profile</a>
-          <a href="{% url 'logout' %}" class="nav-link">Logout</a>
         {% else %}
           <a href="{% url 'login' %}" class="nav-link">Login</a>
           <a href="{% url 'signup' %}" class="nav-link">Signup</a>
@@ -42,53 +41,54 @@
     {% block content %}
       <!-- default content text -->
     {% endblock %}
+
+    <footer id="footer">
+      <div class="white-thin-line"></div>
+      <div class="flex-container">
+        <!-- columns for the bottom navigation section -->
+          <div class="column">
+              <div class="company-info">
+                  COMPANY
+                  <br>
+                  About us
+                  <br>
+                  Careers
+                  <br>
+                  Terms
+                  <br>
+                  Privacy
+                  <br>
+                  Help
+              </div>
+          </div>
+          <div class="column">
+              <div class="work-with-us">
+                  WORK WITH US
+                  <br>
+                  Authors
+                  <br>
+                  Advertise
+                  <br>
+                  Authors & ads blog
+                  <br>
+                  API
+              </div>
+          </div>
+          <div class="column">
+              <div class="connect">
+                  CONNECT
+                  <br>
+                  Movies and Books on Twitter
+                  <br>
+                  Movies and books on Instagram
+                  <br>
+                  Movies and Books on LinkedIn
+              </div>
+          </div>
+      </div>
+      <div class="center">
+          © 2024 Movies and Books, Inc.
+      </div>
+    </footer>
   </body>
-  <footer>
-    <div class="white-thin-line"></div>
-    <div class="flex-container">
-      <!-- columns for the bottom navigation section -->
-        <div class="column">
-            <div class="company-info">
-                COMPANY
-                <br>
-                About us
-                <br>
-                Careers
-                <br>
-                Terms
-                <br>
-                Privacy
-                <br>
-                Help
-            </div>
-        </div>
-        <div class="column">
-            <div class="work-with-us">
-                WORK WITH US
-                <br>
-                Authors
-                <br>
-                Advertise
-                <br>
-                Authors & ads blog
-                <br>
-                API
-            </div>
-        </div>
-        <div class="column">
-            <div class="connect">
-                CONNECT
-                <br>
-                Movies and Books on Twitter
-                <br>
-                Movies and books on Instagram
-                <br>
-                Movies and Books on LinkedIn
-            </div>
-        </div>
-    </div>
-    <div class="center">
-        © 2024 Movies and Books, Inc.
-    </div>
-  </footer>
 </html>

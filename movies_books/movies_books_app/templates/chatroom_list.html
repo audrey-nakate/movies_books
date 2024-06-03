@@ -3,19 +3,65 @@
 <!-- Home or Landing Page of the Website Displays the books available on the website -->
 
 {% block content %}
+    <a href="{% url 'create_chatroom' %}"><button id="createChatroom">Create Chatroom</button></a>
   <div class="chatroom-list">
       {% for chatroom in chatroom_list %}
           <div class="chatroom-details">
-            <a href="{% url 'view_chatroom' chatroom_id=chatroom.id %}">
+            <a href="{% url 'view_chatroom' chatroom_id=chatroom.id %}" onclick="event.preventDefault(); joinChatroom('{{ chatroom.id }}', this);">
               <img src="{{ chatroom.room_image.url }}" alt="{{ chatroom.name }}" class="book-cover">
             </a>
             <div class="book-info">
-              <p class="book-description">{{chatroom.description}}</p> 
+                <p class="chatroom-name">{{chatroom.name}}</p>
+                <p class="book-description">{{chatroom.description}}</p> 
             </div>
           </div>
       {% empty %}
           <p>No Chatrooms Available.</p>
       {% endfor %}
   </div>
-    <a href="{% url 'create_chatroom' %}"><button id="createChatroom">Create Chatroom</button></a>
+
+    <!-- script that allows users to join a chatroom that they left click on -->
+    <script>
+      function joinChatroom(roomId, linkElement) {
+          if (confirm("Do you want to join the chatroom?")) {
+              fetch(`/join_chatroom/${roomId}/`, {
+                  method: 'POST',
+                  headers: {
+                      'X-CSRFToken': getCookie('csrftoken'),
+                      'Content-Type': 'application/json'
+                  },
+                  credentials: 'same-origin',
+              })
+              .then(response => response.json())
+              .then(data => {
+                  if (data.status === 'success') {
+                      alert(data.message);
+                      // Redirect to the chatroom page
+                      window.location.href = linkElement.href;
+                  } else {
+                      alert(data.message);
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+                  alert('An error occurred. Please try again.');
+              });
+          }
+      }
+  
+      function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              const cookies = document.cookie.split(';');
+              for (let i = 0; i < cookies.length; i++) {
+                  const cookie = cookies[i].trim();
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+    </script>
 {% endblock %}

@@ -2,12 +2,13 @@
     display: flex;
     align-items: center;
     padding-left: 10px;
+    margin-left: 10px;
 }
 
 /* css styling for the profile-image */
 .profile-image {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%; /* Make the profile image circular */
     overflow: hidden; /* Hides overflow to maintain circular shape */
     margin-right: 10px;
@@ -26,6 +27,7 @@
     justify-content: flex-start;
     flex-direction: column;
     align-items: flex-start;
+    margin-left: 10px;
 }
 
 .profile-info h1 {
@@ -46,6 +48,7 @@ button#updateProfile {
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
+    margin-bottom: 10px;
 }
 button#updateProfile:hover {
     background-color: #8c84e4;

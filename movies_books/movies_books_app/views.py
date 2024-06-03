@@ -97,22 +97,24 @@ def view_profile(request, username):
     chatrooms = ChatRoom.objects.filter(users=user)
     return render(request, "view_profile.html", {'user':user, 'profile':profile, 'chatrooms': chatrooms})
 
+# view that handles creatin of a chatroom 
 @login_required(login_url='login')
 def create_chatroom(request):
     if request.method == 'POST':
         create_chatroom_form = CreateChatRoomForm(request.POST, request.FILES)
 
         if create_chatroom_form.is_valid():
-            name = request.POST.get('name')
-            room_image = request.POST.get('room_image')
-            description = request.POST.get('description')
-            chatroom = ChatRoom.objects.create(name=name, room_image=room_image, description=description, created_by=request.user)
+            chatroom = create_chatroom_form.save(commit=False)
+            chatroom.created_by = request.user
+            chatroom.save()
+            create_chatroom_form.save_m2m()
             return redirect(to='view_chatroom', chatroom_id=chatroom.id)
     else:
         create_chatroom_form = CreateChatRoomForm()
         
     return render(request, 'create_chatroom.html', {'form': create_chatroom_form})
 
+# view that handles viewing chatrooms that have been created by the user
 @login_required(login_url='login')
 def view_chatroom(request, chatroom_id):
     chatroom = ChatRoom.objects.get(id=chatroom_id)
@@ -132,6 +134,15 @@ def send_message(request, chatroom_id):
 def chatroom_list(request):
     chatroom_list = ChatRoom.objects.all()
     return render(request, 'chatroom_list.html', {'chatroom_list': chatroom_list})
+
+#view that handles a user joining the chatroom
+@login_required
+def join_chatroom(request, chatroom_id):
+    chatroom = get_object_or_404(ChatRoom, id=chatroom_id)
+    if request.method == 'POST':
+        chatroom.users.add(request.user)
+        return JsonResponse({'status': 'success', 'message': 'You have joined the chatroom'})
+    return JsonResponse({'status': 'fail', 'message': 'Invalid request'}, status=400)
 
 # view that filters books by selected genre
 # def genre_books(request, genre_name):

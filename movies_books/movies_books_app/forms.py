@@ -1,7 +1,7 @@
 from django import forms 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, ChatRoom
 
 class SignupForm(UserCreationForm):
     ''''Form for the user signup form'''
@@ -61,7 +61,7 @@ class CreateChatRoomForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 8, 'placeholder': 'Tell the community about yourself.'}))
 
     class Meta:
-        model = Profile
+        model = ChatRoom
         fields = ['name', 'room_image', 'description']
 
     def __init__(self, *args, **kwargs):

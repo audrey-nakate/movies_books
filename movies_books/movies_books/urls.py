@@ -33,6 +33,7 @@ urlpatterns = [
     path('profile/<str:username>/update/', views.update_profile, name='update_profile'),
     path('create_chatroom/', views.create_chatroom, name='create_chatroom'),
     path('book_discussion/<int:chatroom_id>/', views.view_chatroom, name='view_chatroom'),
-    path('chatroom_list/', views.chatroom_list, name='chatroom_list')
+    path('chatroom_list/', views.chatroom_list, name='chatroom_list'),
+    path('join_chatroom/<int:chatroom_id>/', views.join_chatroom, name='join_chatroom'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
