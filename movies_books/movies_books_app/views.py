@@ -41,10 +41,14 @@ def user_logout(request):
 
 # view that will list all the books stored in the database
 # will also be the home page or landing page of the site
+@login_required(login_url='login')
 def book_list(request):
     book_list = Book.objects.all()
     return render(request, 'books_home.html', {'book_list': book_list})
 
+@login_required(login_url='login')
+def movie_view(request):
+    return render(request ,'movies_home.html')
 # view that handles showing the details of an indivudual book
 @login_required(login_url='login')
 def book_detail(request, book_id):

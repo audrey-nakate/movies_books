@@ -22,7 +22,7 @@
       {% block nav %}
       <div class="navigation-bar">
         <a href="{% url 'books_home' %}" class="nav-link">Books</a>
-        <a href=# class="nav-link">Movies</a>
+        <a href="{% url 'movies_home' %}" class="nav-link">Movies</a>
         {% if request.user.is_authenticated %}
           <!-- Search Form -->
           <form class="search-form" action="{% url 'search_results' %}" method="get">{% csrf_token %}

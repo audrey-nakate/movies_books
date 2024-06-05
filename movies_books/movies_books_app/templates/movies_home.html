@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+{% load static %}
+<!-- Home or Landing Page of the Website Displays the books available on the website -->
+
+{% block content %}
+  <div class="books-list">
+  </div>
+  <div class="iframe-container">
+    <iframe src="https://movierecommender-sys-0f0e6985544f.herokuapp.com/" width="100%" height="600" style="border:none;">
+      Your browser does not support iframes.
+    </iframe>
+  </div>
+{% endblock %}
