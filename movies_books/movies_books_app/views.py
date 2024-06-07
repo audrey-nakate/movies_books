@@ -134,12 +134,13 @@ def send_message(request, chatroom_id):
         return redirect('view_chatroom', chatroom_id=chatroom_id)
     
 # view that will list all the chatrooms that have been created
+@login_required(login_url='login')
 def chatroom_list(request):
     chatroom_list = ChatRoom.objects.all()
     return render(request, 'chatroom_list.html', {'chatroom_list': chatroom_list})
 
 # view that handles a user joining the chatroom
-@login_required
+@login_required(login_url='login')
 def join_chatroom(request, chatroom_id):
     chatroom = get_object_or_404(ChatRoom, id=chatroom_id)
     is_member = chatroom.users.filter(id=request.user.id).exists()
@@ -152,7 +153,7 @@ def join_chatroom(request, chatroom_id):
     return JsonResponse({'status': 'fail', 'message': 'Invalid request'}, status=400)
 
 # view that handles users leaving the chatroom
-@login_required
+@login_required(login_url='login')
 def exit_chatroom(request, chatroom_id):
     chatroom = get_object_or_404(ChatRoom, id=chatroom_id)
     if request.method == 'POST':
