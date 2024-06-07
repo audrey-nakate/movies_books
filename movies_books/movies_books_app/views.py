@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.views.decorators.http import require_POST
 from .forms import SignupForm, LoginForm, UpdateProfileForm, CreateChatRoomForm
 from django.contrib.auth.models import User
+from django.urls import reverse
 from .models import Book, Genre, Review, ChatRoom, Message
 
 # view for the website signup page
@@ -119,7 +120,10 @@ def create_chatroom(request):
 def view_chatroom(request, chatroom_id):
     chatroom = ChatRoom.objects.get(id=chatroom_id)
     messages = Message.objects.filter(chatroom=chatroom)
-    return render(request, 'view_chatroom.html', {'chatroom': chatroom, 'messages': messages})
+    # to prevent user from viewing a chatroom unless they explicitly join it
+    if request.user not in chatroom.users.all():
+        return HttpResponseForbidden("You are not a member of this chatroom.")
+    return render(request, 'view_chatroom.html', {'chatroom': chatroom, 'messages': messages, 'is_member': True})
 
 @login_required(login_url='login')
 def send_message(request, chatroom_id):
@@ -129,21 +133,32 @@ def send_message(request, chatroom_id):
         Message.objects.create(chatroom=chatroom, sender=request.user, content=content)
         return redirect('view_chatroom', chatroom_id=chatroom_id)
     
-
 # view that will list all the chatrooms that have been created
 def chatroom_list(request):
     chatroom_list = ChatRoom.objects.all()
     return render(request, 'chatroom_list.html', {'chatroom_list': chatroom_list})
 
-#view that handles a user joining the chatroom
+# view that handles a user joining the chatroom
 @login_required
 def join_chatroom(request, chatroom_id):
     chatroom = get_object_or_404(ChatRoom, id=chatroom_id)
+    is_member = chatroom.users.filter(id=request.user.id).exists()
     if request.method == 'POST':
-        chatroom.users.add(request.user)
-        return JsonResponse({'status': 'success', 'message': 'You have joined the chatroom'})
+        if not is_member:
+            chatroom.users.add(request.user)
+            return JsonResponse({'status': 'success', 'message': 'You have joined the chatroom', 'is_member': True})
+        else:
+            return JsonResponse({'status': 'already_member', 'message': 'You are already a member of this chatroom', 'redirect_url': reverse('view_chatroom', kwargs={'chatroom_id': chatroom_id})})
     return JsonResponse({'status': 'fail', 'message': 'Invalid request'}, status=400)
 
+# view that handles users leaving the chatroom
+@login_required
+def exit_chatroom(request, chatroom_id):
+    chatroom = get_object_or_404(ChatRoom, id=chatroom_id)
+    if request.method == 'POST':
+        chatroom.users.remove(request.user)
+        return JsonResponse({'status': 'success', 'message': 'You have exited the chatroom'})
+    return JsonResponse({'status': 'fail', 'message': 'Invalid request'}, status=400)
 # view that filters books by selected genre
 # def genre_books(request, genre_name):
 #     genre = get_object_or_404(Genre, name=genre_name)
