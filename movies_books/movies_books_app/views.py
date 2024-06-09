@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Q
 from django.http import JsonResponse, HttpResponseForbidden
 from django.views.decorators.http import require_POST
 from .forms import SignupForm, LoginForm, UpdateProfileForm, CreateChatRoomForm
@@ -55,8 +56,11 @@ def book_detail(request, book_id):
 #view for the search function on the home page
 def search_results(request):
     query = request.GET.get('query')
-    books = Book.objects.filter(title__icontains=query)
-    return render(request, 'search_results.html', {'books': books})
+    if query:
+            results = Book.objects.filter(Q(title__icontains=query))
+    else:
+            results = Book.objects.none()
+    return render(request, 'search_results.html', {'results': results, 'query': query})
 
 #view to handle user review submissions
 @require_POST
@@ -160,6 +164,17 @@ def exit_chatroom(request, chatroom_id):
         chatroom.users.remove(request.user)
         return JsonResponse({'status': 'success', 'message': 'You have exited the chatroom'})
     return JsonResponse({'status': 'fail', 'message': 'Invalid request'}, status=400)
+
+# view to handle searches on the chatroom page
+@login_required(login_url='login')
+def chatroom_search_results(request):
+    query = request.GET.get('q', '')
+    print(f"Query: {query}")  # Debug print
+    if query:
+        results = ChatRoom.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
+    else:
+        results = ChatRoom.objects.none()
+    return render(request, 'chatroom_search_results.html', {'results': results, 'query': query})
 # view that filters books by selected genre
 # def genre_books(request, genre_name):
 #     genre = get_object_or_404(Genre, name=genre_name)

@@ -36,5 +36,6 @@ urlpatterns = [
     path('chatroom_list/', views.chatroom_list, name='chatroom_list'),
     path('join_chatroom/<int:chatroom_id>/', views.join_chatroom, name='join_chatroom'),
     path('chatroom/<int:chatroom_id>/exit/', views.exit_chatroom, name='exit_chatroom'),
+    path('chatroom_search/', views.chatroom_search_results, name='chatroom_search_results'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

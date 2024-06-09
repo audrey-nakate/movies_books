@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/profile_page.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/error_style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/chatroom_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/chatroom_list.css' %}">
     {% block title %}
       <title>Books and Movies</title>
     {% endblock %}
@@ -26,7 +27,7 @@
         {% if request.user.is_authenticated %}
           <!-- Search Form -->
           <form class="search-form" action="{% url 'search_results' %}" method="get">{% csrf_token %}
-            <input class="search-input" type="text" name="query" placeholder="Search">
+            <input class="search-input" type="text" name="query" value="{{ query|default_if_none:'' }}" placeholder="Search Books and Movies">
             <button type="submit" id="searchButton">Search</button>
           </form>
           <a href="{% url 'chatroom_list' %}" class="nav-link">Chat Rooms</a>
