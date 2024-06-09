@@ -1,34 +1,42 @@
 {% extends "base_generic.html" %}
 {% load static %}
-{% block title %} <title>Chatrooms</title> {% endblock %}
+{% block title %} <title>Chatroom Search Results</title> {% endblock %}
 
 {% block content %}
     <div class="chatroom-nav">
-        <a href="{% url 'create_chatroom' %}" class="nav-link">Create Chatroom</a>
         <form class="chatroom-search-form" action="{% url 'chatroom_search_results' %}" method="get">{% csrf_token %}
             <input class="search-input" type="text" name="q" value="{{ query|default_if_none:'' }}" placeholder="Search Chatrooms">
             <button type="submit" id="searchButton">Search</button>
         </form>
     </div>
     <div class="chatroom-list-container">
-        <div class="chatroom-list">
-            {% for chatroom in chatroom_list %}
-                <div class="chatroom-details">
-                    <img src="{{ chatroom.room_image.url }}" alt="{{ chatroom.name }}" class="book-cover">
-                    <div class="book-info">
-                        <a href="{% url 'view_chatroom' chatroom_id=chatroom.id %}" class="chatroom-name-container"><p class="chatroom-name">{{ chatroom.name }}</p></a>
-                        <p class="book-description">{{ chatroom.description }}</p> 
-                        <a href="{% url 'view_chatroom' chatroom_id=chatroom.id %}" class="join-link" data-chatroom-id="{{ chatroom.id }}" data-isMember="{{ chatroom.is_member }}">
-                            <p class="join-link-paragraph">click to become a member</p>
-                        </a>                
-                    </div>
+        {% if query %}
+            <h2>Showing results for "{{ query }}"</h2>
+            {% if results.exists %}
+                <div class="chatroom-list">
+                    {% for chatroom in results %}
+                        <div class="chatroom-details">
+                            <img src="{{ chatroom.room_image.url }}" alt="{{ chatroom.name }}" class="book-cover">
+                            <div class="book-info">
+                                <a href="{% url 'view_chatroom' chatroom_id=chatroom.id %}" class="chatroom-name-container">
+                                    <p class="chatroom-name">{{ chatroom.name }}</p>
+                                </a>
+                                <p class="book-description">{{ chatroom.description }}</p>
+                                <a href="{% url 'view_chatroom' chatroom_id=chatroom.id %}" class="join-link" data-chatroom-id="{{ chatroom.id }}" data-isMember="{{ chatroom.is_member }}">
+                                    <p class="join-link-paragraph">click to become a member</p>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% empty %}
-                <p>No Chatrooms Available.</p>
-            {% endfor %}
-        </div>
-    </div>
-
+            {% else %}
+                <p>No chatrooms found matching your query.</p>
+            {% endif %}
+        {% else %}
+            <p>Enter a search term to find chatrooms.</p>
+        {% endif %}
+    </div>  
+    
     <!-- script that allows users to join a chatroom that they left click on -->
     <script>
         // checking if the user is already part of the chatroom, and redirecting them to the chatroom if they are
@@ -94,5 +102,5 @@
             }
             return cookieValue;
         }
-    </script>        
+    </script>
 {% endblock %}
