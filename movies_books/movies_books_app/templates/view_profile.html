@@ -17,11 +17,11 @@
             <h2>Recently Watched</h2>
             <br>
             <h2>Chat Rooms</h2>
-            <div class="chatroom-list">
+            <div class="profile-chatroom-list">
                 {% for chatroom in user_chatrooms %}
                     <div class="chatroom-details">
                       <a href="{% url 'view_chatroom' chatroom_id=chatroom.id %}">
-                        <img src="{{ chatroom.room_image.url }}" alt="{{ chatroom.name }}" class="book-cover">
+                        <img src="{{ chatroom.room_image.url }}" alt="{{ chatroom.name }}" class="profile-chatroom-image">
                       </a>
                     </div>
                 {% empty %}
@@ -30,19 +30,17 @@
             </div>
             <br>
             <h2>Owner Of:</h2>
-            {% if is_owner %}
-                <div class="chatroom-list">
-                    {% for chatroom in owner_chatrooms %}
-                        <div class="chatroom-details">
+            <div class="profile-chatroom-list">
+                {% for chatroom in owner_chatrooms %}
+                    <div class="chatroom-details">
                         <a href="{% url 'view_chatroom' chatroom_id=chatroom.id %}">
-                            <img src="{{ chatroom.room_image.url }}" alt="{{ chatroom.name }}" class="book-cover">
+                            <img src="{{ chatroom.room_image.url }}" alt="{{ chatroom.name }}" class="profile-chatroom-image">
                         </a>
-                        </div>
-                    {% empty %}
-                        <p>{{user.username}} has not created any chatrooms</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
+                    </div>
+                {% empty %}
+                    <p>{{ user.username }} has not created any chatrooms</p>
+                {% endfor %}
+            </div>
             <br>
             <a href="{% url 'update_profile' username=user.username%}"><button id="updateProfile">Update Profile</button></a>
             <a href="{% url 'logout' %}"><button id="updateProfile">Logout</button></a>

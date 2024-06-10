@@ -101,7 +101,7 @@ def view_profile(request, username):
     profile = user.profile
     user_chatrooms = ChatRoom.objects.filter(users=user)
     owner_chatrooms = ChatRoom.objects.filter(owner=user)
-    return render(request, "view_profile.html", {'user':user, 'profile':profile, 'user_chatrooms': user_chatrooms, 'owner_chatrooms': owner_chatrooms,})
+    return render(request, "view_profile.html", {'user':user, 'profile':profile, 'user_chatrooms': user_chatrooms, 'owner_chatrooms': owner_chatrooms})
 
 # view that handles creatin of a chatroom 
 @login_required(login_url='login')
