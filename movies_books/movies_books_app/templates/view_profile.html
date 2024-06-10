@@ -18,7 +18,7 @@
             <br>
             <h2>Chat Rooms</h2>
             <div class="chatroom-list">
-                {% for chatroom in chatrooms %}
+                {% for chatroom in user_chatrooms %}
                     <div class="chatroom-details">
                       <a href="{% url 'view_chatroom' chatroom_id=chatroom.id %}">
                         <img src="{{ chatroom.room_image.url }}" alt="{{ chatroom.name }}" class="book-cover">
@@ -28,6 +28,21 @@
                     <p>{{user.username}} not part of any chatrooms</p>
                 {% endfor %}
             </div>
+            <br>
+            <h2>Owner Of:</h2>
+            {% if is_owner %}
+                <div class="chatroom-list">
+                    {% for chatroom in owner_chatrooms %}
+                        <div class="chatroom-details">
+                        <a href="{% url 'view_chatroom' chatroom_id=chatroom.id %}">
+                            <img src="{{ chatroom.room_image.url }}" alt="{{ chatroom.name }}" class="book-cover">
+                        </a>
+                        </div>
+                    {% empty %}
+                        <p>{{user.username}} has not created any chatrooms</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
             <br>
             <a href="{% url 'update_profile' username=user.username%}"><button id="updateProfile">Update Profile</button></a>
             <a href="{% url 'logout' %}"><button id="updateProfile">Logout</button></a>

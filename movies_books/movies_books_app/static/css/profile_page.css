@@ -40,6 +40,17 @@
     margin: 0;
 }
 
+.profile-info a {
+    padding: 20px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #ac73ff;
+}
+
+.profile-container a:hover {
+    color: #8c84e4;
+}
+
 button#updateProfile {
     background-color: #ac73ff;
     color: #fff;
