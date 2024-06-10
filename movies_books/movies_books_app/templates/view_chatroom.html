@@ -2,99 +2,111 @@
 {% load static %}
 
 {% block title %}
-<title>Chatroom: {{ chatroom.name }}</title>
+<title>{{ chatroom.name }}</title>
 {% endblock %}
 
 {% block content %}
-<h1>Chatroom: {{ chatroom.name }}</h1>
-<p><a href="{% url 'chatroom_list' %}" onclick="event.preventDefault(); exitChatroom('{{ chatroom.id }}', this);">Exit Chatroom</a></p>
+    <div class="chatroom-nav">
+        <h1>Chatroom: {{ chatroom.name }}</h1>
+        <a href="{% url 'chatroom_list' %}" class="exit-link" onclick="event.preventDefault(); exitChatroom('{{ chatroom.id }}', this);">Exit Chatroom</a>
+        {% if is_owner %}
+            <a href="{% url 'delete_chatroom' chatroom.id %}" class="delete-link" onclick="return confirm('Are you sure you want to delete this chatroom?');">Delete Chatroom</a>
+        {% endif %}
+    </div>
 
-<div id="messages">
-    {% for message in messages %}
-        <p><strong>{{ message.sender.username }}:</strong> {{ message.content }}</p>
-    {% endfor %}
-</div>
-<form id="message-form" method="post">
-    {% csrf_token %}
-    <input type="text" id="message" name="message" placeholder="Type your message..." required>
-    <button type="submit">Send</button>
-</form>
+    <div class="chatroom-container">
+        <div id="messages">
+            {% for message in messages %}
+                <p><strong>{{ message.sender.username }}:</strong> {{ message.content }}</p>
+            {% endfor %}
+        </div>
+    </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var chatSocket = new WebSocket(
-            'ws://' + window.location.host +
-            '/ws/chat/{{ chatroom.id }}/'
-        );
+    <form id="message-form" method="post">
+        {% csrf_token %}
+        <input type="text" id="message" name="message" placeholder="Type your message..." required>
+        <button type="submit">Send</button>
+    </form>
 
-        chatSocket.onmessage = function(e) {
-            var data = JSON.parse(e.data);
-            var message = data['message'];
-            var username = data['username'];
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var chatSocket = new WebSocket(
+                'ws://' + window.location.host +
+                '/ws/chat/{{ chatroom.id }}/'
+            );
 
-            if (username !== '{{ request.user.username }}') {
+            chatSocket.onmessage = function(e) {
+                var data = JSON.parse(e.data);
+                var message = data['message'];
+                var username = data['username'];
+
+                if (username !== '{{ request.user.username }}') {
+                    var messageElement = document.createElement('p');
+                    messageElement.innerHTML = '<strong>' + username + ':</strong> ' + message;
+                    document.querySelector('#messages').appendChild(messageElement);
+                }
+            };
+
+            document.querySelector('#message-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                var messageInputDom = document.querySelector('#message');
+                var message = messageInputDom.value;
+
                 var messageElement = document.createElement('p');
-                messageElement.innerHTML = '<strong>' + username + ':</strong> ' + message;
+                messageElement.innerHTML = '<strong>' + '{{ request.user.username }}' + ':</strong> ' + message;
                 document.querySelector('#messages').appendChild(messageElement);
-            }
-        };
 
-        document.querySelector('#message-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            var messageInputDom = document.querySelector('#message');
-            var message = messageInputDom.value;
+                chatSocket.send(JSON.stringify({
+                    'message': message
+                }));
 
-            var messageElement = document.createElement('p');
-            messageElement.innerHTML = '<strong>' + '{{ request.user.username }}' + ':</strong> ' + message;
-            document.querySelector('#messages').appendChild(messageElement);
-
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-
-            messageInputDom.value = '';
-        });
-    });
-
-    function exitChatroom(roomId, linkElement) {
-        if (confirm("Do you want to exit the chatroom?")) {
-            fetch(`/chatroom/${roomId}/exit/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken'),
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'same-origin',
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert(data.message);
-                    window.location.href = linkElement.href;
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
+                messageInputDom.value = '';
             });
-        }
-    }
+        });
 
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+        function exitChatroom(roomId, linkElement) {
+            if (confirm("Do you want to exit the chatroom?")) {
+                fetch(`/chatroom/${roomId}/exit/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert(data.message);
+                        window.location.href = linkElement.href;
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
             }
         }
-        return cookieValue;
-    }
-</script>
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+{% endblock %}
+
+{% block footer %}
+<!-- Exclude footer content for this page -->
 {% endblock %}

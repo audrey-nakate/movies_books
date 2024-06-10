@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}
+<title>Confirm Chatroom Deletion</title>
+{% endblock %}
+
+{% block content %}
+    <h1>Confirm Delete Chatroom</h1>
+    <p>Are you sure you want to delete the chatroom "{{ chatroom.name }}"?</p>
+    <div class="profile-info">
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Yes, delete</button>
+            <a href="{% url 'view_chatroom' chatroom.id %}">No, go back</a>
+        </form>
+    </div>
+{% endblock %}

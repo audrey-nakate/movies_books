@@ -99,8 +99,9 @@ def update_profile(request, username):
 def view_profile(request, username):
     user = get_object_or_404(User, username=username)
     profile = user.profile
-    chatrooms = ChatRoom.objects.filter(users=user)
-    return render(request, "view_profile.html", {'user':user, 'profile':profile, 'chatrooms': chatrooms})
+    user_chatrooms = ChatRoom.objects.filter(users=user)
+    owner_chatrooms = ChatRoom.objects.filter(owner=user)
+    return render(request, "view_profile.html", {'user':user, 'profile':profile, 'user_chatrooms': user_chatrooms, 'owner_chatrooms': owner_chatrooms,})
 
 # view that handles creatin of a chatroom 
 @login_required(login_url='login')
@@ -110,9 +111,11 @@ def create_chatroom(request):
 
         if create_chatroom_form.is_valid():
             chatroom = create_chatroom_form.save(commit=False)
-            chatroom.created_by = request.user
+            chatroom.owner = request.user
             chatroom.save()
             create_chatroom_form.save_m2m()
+            # Add the owner to the chatroom members
+            chatroom.users.add(request.user)
             return redirect(to='view_chatroom', chatroom_id=chatroom.id)
     else:
         create_chatroom_form = CreateChatRoomForm()
@@ -124,10 +127,11 @@ def create_chatroom(request):
 def view_chatroom(request, chatroom_id):
     chatroom = ChatRoom.objects.get(id=chatroom_id)
     messages = Message.objects.filter(chatroom=chatroom)
+    is_owner = request.user == chatroom.owner
     # to prevent user from viewing a chatroom unless they explicitly join it
     if request.user not in chatroom.users.all():
         return HttpResponseForbidden("You are not a member of this chatroom.")
-    return render(request, 'view_chatroom.html', {'chatroom': chatroom, 'messages': messages, 'is_member': True})
+    return render(request, 'view_chatroom.html', {'chatroom': chatroom, 'messages': messages, 'is_member': True, 'is_owner': is_owner})
 
 @login_required(login_url='login')
 def send_message(request, chatroom_id):
@@ -175,6 +179,22 @@ def chatroom_search_results(request):
     else:
         results = ChatRoom.objects.none()
     return render(request, 'chatroom_search_results.html', {'results': results, 'query': query})
+
+@login_required
+def delete_chatroom(request, chatroom_id):
+    chatroom = get_object_or_404(ChatRoom, id=chatroom_id)
+
+    # Check if the user has permission to delete the chatroom (e.g., if they are the owner)
+    if request.user != chatroom.owner:
+        messages.error(request, "You do not have permission to delete this chatroom.")
+        return redirect('chatroom_view', chatroom_id=chatroom_id)
+
+    if request.method == 'POST':
+        chatroom.delete()
+        messages.success(request, "Chatroom deleted successfully.")
+        return redirect('chatroom_list')
+
+    return render(request, 'chatroom_confirm_delete.html', {'chatroom': chatroom})
 # view that filters books by selected genre
 # def genre_books(request, genre_name):
 #     genre = get_object_or_404(Genre, name=genre_name)

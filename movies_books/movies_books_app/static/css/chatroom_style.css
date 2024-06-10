@@ -1,13 +1,49 @@
+.chatroom-container {
+    display: flex;
+    flex-direction: column;
+    height: 92vh;
+}
+
 /* Style for the chatroom header */
 h1 {
-    text-align: center;
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.exit-link {
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-right: 1rem;
+    color: #333;
+    padding-top: 6px;
+}
+
+.exit-link:hover {
+    color: grey;
+}
+
+.delete-link {
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-right: 1rem;
+    color: #333;
+    padding-top: 6px;
+}
+
+.delete-link:hover {
+    color: red;
 }
 
 /* Style for chat messages */
 #messages {
-    margin-bottom: 20px;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column; /* Display messages in reverse order */
+    justify-content: flex-end;
+    padding: 0 20px;
+    margin: 0px;
 }
 
 #messages p {
@@ -28,6 +64,13 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background-color: #f9f9f9;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 #message {

@@ -1,3 +1,1 @@
 IN TERMS OF INTERFACE IMPLEMENTATION
-create page that allows users to delete the chatrooms
-style the chatrooms page so that the message entering form stays at the bottom of the page.

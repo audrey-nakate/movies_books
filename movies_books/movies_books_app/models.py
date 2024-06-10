@@ -44,7 +44,7 @@ class ChatRoom(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(max_length=500)
     room_image = models.ImageField(default='images/default_room_image.png', upload_to='room_images/', null=False)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_chatroom')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_chatroom')
     created_at = models.DateTimeField(default=timezone.now)
     users = models.ManyToManyField(User, related_name='chatrooms')
 
