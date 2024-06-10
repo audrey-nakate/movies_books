@@ -24,7 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',  views.book_list, name='books_home'),
     path('search/', views.search_results, name='search_results'),
-    path('login/', views.user_login, name='login'),
     path('signup/', views.user_signup, name='signup'),
     path('logout/', views.user_logout, name='logout'),
     path('book_detail/<book_id>/',views.book_detail,name ='book_detail'),
@@ -38,5 +37,7 @@ urlpatterns = [
     path('chatroom/<int:chatroom_id>/exit/', views.exit_chatroom, name='exit_chatroom'),
     path('chatroom_search/', views.chatroom_search_results, name='chatroom_search_results'),
     path('chatroom/<int:chatroom_id>/delete/', views.delete_chatroom, name='delete_chatroom'),
+    path('login-redirect/', views.login_redirect_view, name='login_redirect'),
+    path('login/', views.user_login, name='login'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

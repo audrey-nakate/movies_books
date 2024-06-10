@@ -1,0 +1,11 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}<title>Login Redirect</title>{% endblock %}
+
+{% block content %}
+    <div class="login-redirect-margin">
+        <h1>Login Required</h1>
+        <p>You must <a href="{% url 'login' %}?next={{ next }}" class="login-link">login</a> to view this page.</p>
+    </div>
+{% endblock %}

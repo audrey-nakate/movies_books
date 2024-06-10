@@ -104,3 +104,17 @@ button#searchButton {
 button#searchButton:hover {
     background-color: #8c84e4;
 }
+
+.login-link {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #333;
+}
+
+.login-link:hover {
+    color: #ac73ff;
+}
+
+.login-redirect-margin {
+    margin-left: 10px;
+}
