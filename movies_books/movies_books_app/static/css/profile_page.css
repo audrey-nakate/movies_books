@@ -1,6 +1,6 @@
 .profile-container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     padding-left: 10px;
     margin-left: 10px;
 }
@@ -11,7 +11,8 @@
     height: 200px;
     border-radius: 50%; /* Make the profile image circular */
     overflow: hidden; /* Hides overflow to maintain circular shape */
-    margin-right: 10px;
+    margin-right: 20px;
+    margin-top: 20px;
 }
 
 .profile-image img {
@@ -63,4 +64,20 @@ button#updateProfile {
 }
 button#updateProfile:hover {
     background-color: #8c84e4;
+}
+
+.profile-chatroom-image {
+    max-width: 100px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.profile-chatroom-list {
+    margin: 0px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Two columns */
+    grid-gap: 0px; 
+    list-style: none;
+    padding: 0;
+    overflow-x: auto;
 }
