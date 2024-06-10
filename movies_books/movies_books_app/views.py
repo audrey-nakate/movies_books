@@ -23,6 +23,7 @@ def user_signup(request):
 
 # view for the website login page
 def user_login(request):
+    next_url = request.GET.get('next', '')
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -31,15 +32,20 @@ def user_login(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)    
-                return redirect('books_home')
+                return redirect(next_url if next_url else 'books_home')
     else:
         form = LoginForm()
-    return render(request, 'registration/login.html', {'form': form})
+    return render(request, 'registration/login.html', {'form': form, 'next': next_url})
 
 # view for the website logout page
 def user_logout(request):
     logout(request)
     return redirect('books_home')
+
+# view that will redirect users to a login page if they are trying to access a page that requires logging in
+def login_redirect_view(request):
+    next_url = request.GET.get('next', '/')
+    return render(request, 'login_redirect.html', {'next': next_url})
 
 # view that will list all the books stored in the database
 # will also be the home page or landing page of the site
@@ -48,7 +54,7 @@ def book_list(request):
     return render(request, 'books_home.html', {'book_list': book_list})
 
 # view that handles showing the details of an indivudual book
-@login_required(login_url='login')
+@login_required(login_url='login_redirect')
 def book_detail(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
     return render(request, 'book_detail.html', {'book': book})
@@ -78,7 +84,7 @@ def submit_review(request, book_id):
     return JsonResponse({'id': review.id, 'rating': review.rating, 'comment': review.comment})
 
 # view that handles updates made to the profile page of the user
-@login_required(login_url='login')
+@login_required(login_url='login_redirect')
 def update_profile(request, username):
     user = get_object_or_404(User, username=username)
     if request.method == 'POST':
@@ -95,7 +101,7 @@ def update_profile(request, username):
     return render(request, 'update_profile.html', {'form': profile_form, 'user':user})
 
 # view that handles the profile page of the user
-@login_required(login_url='login')
+@login_required(login_url='login_redirect')
 def view_profile(request, username):
     user = get_object_or_404(User, username=username)
     profile = user.profile
@@ -104,7 +110,7 @@ def view_profile(request, username):
     return render(request, "view_profile.html", {'user':user, 'profile':profile, 'user_chatrooms': user_chatrooms, 'owner_chatrooms': owner_chatrooms})
 
 # view that handles creatin of a chatroom 
-@login_required(login_url='login')
+@login_required(login_url='login_redirect')
 def create_chatroom(request):
     if request.method == 'POST':
         create_chatroom_form = CreateChatRoomForm(request.POST, request.FILES)
@@ -123,7 +129,7 @@ def create_chatroom(request):
     return render(request, 'create_chatroom.html', {'form': create_chatroom_form})
 
 # view that handles viewing chatrooms that have been created by the user
-@login_required(login_url='login')
+@login_required(login_url='login_redirect')
 def view_chatroom(request, chatroom_id):
     chatroom = ChatRoom.objects.get(id=chatroom_id)
     messages = Message.objects.filter(chatroom=chatroom)
@@ -133,7 +139,7 @@ def view_chatroom(request, chatroom_id):
         return HttpResponseForbidden("You are not a member of this chatroom.")
     return render(request, 'view_chatroom.html', {'chatroom': chatroom, 'messages': messages, 'is_member': True, 'is_owner': is_owner})
 
-@login_required(login_url='login')
+@login_required(login_url='login_redirect')
 def send_message(request, chatroom_id):
     if request.method == 'POST':
         chatroom = ChatRoom.objects.get(id=chatroom_id)
@@ -142,13 +148,13 @@ def send_message(request, chatroom_id):
         return redirect('view_chatroom', chatroom_id=chatroom_id)
     
 # view that will list all the chatrooms that have been created
-@login_required(login_url='login')
+@login_required(login_url='login_redirect')
 def chatroom_list(request):
     chatroom_list = ChatRoom.objects.all()
     return render(request, 'chatroom_list.html', {'chatroom_list': chatroom_list})
 
 # view that handles a user joining the chatroom
-@login_required(login_url='login')
+@login_required(login_url='login_redirect')
 def join_chatroom(request, chatroom_id):
     chatroom = get_object_or_404(ChatRoom, id=chatroom_id)
     is_member = chatroom.users.filter(id=request.user.id).exists()
@@ -161,7 +167,7 @@ def join_chatroom(request, chatroom_id):
     return JsonResponse({'status': 'fail', 'message': 'Invalid request'}, status=400)
 
 # view that handles users leaving the chatroom
-@login_required(login_url='login')
+@login_required(login_url='login_redirect')
 def exit_chatroom(request, chatroom_id):
     chatroom = get_object_or_404(ChatRoom, id=chatroom_id)
     if request.method == 'POST':
@@ -170,7 +176,7 @@ def exit_chatroom(request, chatroom_id):
     return JsonResponse({'status': 'fail', 'message': 'Invalid request'}, status=400)
 
 # view to handle searches on the chatroom page
-@login_required(login_url='login')
+@login_required(login_url='login_redirect')
 def chatroom_search_results(request):
     query = request.GET.get('q', '')
     print(f"Query: {query}")  # Debug print
@@ -180,7 +186,7 @@ def chatroom_search_results(request):
         results = ChatRoom.objects.none()
     return render(request, 'chatroom_search_results.html', {'results': results, 'query': query})
 
-@login_required
+@login_required(login_url='login_redirect')
 def delete_chatroom(request, chatroom_id):
     chatroom = get_object_or_404(ChatRoom, id=chatroom_id)
 

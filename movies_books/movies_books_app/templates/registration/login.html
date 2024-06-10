@@ -7,7 +7,7 @@
     <section class="update-profile-section">
         <h1>Login</h1>
         <div class="profile-info">
-            <form method="POST" action="{% url 'login' %}" enctype="multipart/form-data">
+            <form method="POST" action="{% url 'login' %}?next={{ request.GET.next }}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{form.as_p}}
         
