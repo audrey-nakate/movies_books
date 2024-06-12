@@ -9,6 +9,8 @@ from .forms import SignupForm, LoginForm, UpdateProfileForm, CreateChatRoomForm
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Book, Movie, Genre, Review, ChatRoom, Message
+import requests
+
 
 # view for the website signup page
 def user_signup(request):
@@ -49,9 +51,11 @@ def login_redirect_view(request):
 
 # view that will list all the books stored in the database
 # will also be the home page or landing page of the site
+@login_required(login_url='login')
 def book_list(request):
     book_list = Book.objects.all()
     return render(request, 'books_home.html', {'book_list': book_list})
+
 
 # view that will show all the movies stored in the database
 def movie_list(request):
