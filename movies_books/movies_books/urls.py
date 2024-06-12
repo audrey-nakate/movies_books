@@ -23,6 +23,7 @@ from movies_books_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',  views.book_list, name='books_home'),
+    path('movies/',  views.movie_view, name='movies_home'),
     path('search/', views.search_results, name='search_results'),
     path('signup/', views.user_signup, name='signup'),
     path('logout/', views.user_logout, name='logout'),
