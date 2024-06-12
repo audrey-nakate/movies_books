@@ -3,12 +3,17 @@
 <!-- Home or Landing Page of the Website Displays the books available on the website -->
 
 {% block content %}
-<div class="books-list">
-</div>
-<!-- <h1>books page</h1> -->
-<div class="iframe-container">
-  <iframe src="https://book-recommender-sys-5ce38f33c63d.herokuapp.com/" width="100%" height="600" style="border:none;">
-    Your browser does not support iframes.
-  </iframe>
+<div class="books-list-container">
+  <div class="books-list">
+    {% for book in book_list %}
+        <div class="book-item">
+          <a href="{% url 'book_detail' book_id=book.id %}">
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="book-cover">
+          </a>
+          <p class="book-title-home">{{ book.title }}</p>
+        </div>
+    {% empty %}
+        <p>No Books found.</p>
+    {% endfor %}
 </div>
 {% endblock %}
