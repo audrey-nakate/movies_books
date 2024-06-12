@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+{% load static %}
+<!-- Page to display the details of a movie. Will also include ratings and reviews. Will only be displayed if a user is logged in -->
+
+{% block title %}
+    <title>{{ movie.title }}Details</title>
+{% endblock %}
+
+{% block content %}
+    <div class="book-container">
+        <div class="book-details">
+            <img src="{{ movie.cover_image.url }}" alt="{{ movie.title }}" class="book-detail-cover">
+            <div class="book-info">
+                <h1 class="book-title">{{ movie.title }}</h1>
+                <p class="book-label"><strong>Director:</strong> {{ movie.director }}</p>
+                <p class="book-label"><strong>Description:</strong></p>
+                <p class="book-description">{{ movie.description }}</p>
+            </div>
+        </div>
+
+        <!-- Display existing reviews -->
+        <h2>Reviews</h2>
+        <p>No reviews available</p>
+    </div> 
+{% endblock %}
+

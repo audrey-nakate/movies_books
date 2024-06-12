@@ -1,11 +1,13 @@
 from django.contrib import admin
-from .models import Book, Genre, Review, Profile, ChatRoom, Message
+from .models import Book, Genre, Review, Profile, ChatRoom, Message, Movie
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author')
     list_filter = ('genre',)
     search_fields = ('title', 'author')
+
+admin.site.register(Movie)
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
