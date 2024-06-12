@@ -2,13 +2,17 @@
 {% load static %}
 
 {% block content %}
-<div class="books-list">
-</div>
-<!-- <h1>movies page</h1> -->
-  </div>
-  <div class="iframe-container">
-    <iframe src="https://moviee-recommender-e4b92f757fb3.herokuapp.com/" width="100%" height="600" style="border:none;">
-      Your browser does not support iframes.
-    </iframe>
+  <div class="books-list-container">
+    <div class="books-list">
+      {% for movie in movie_list %}
+          <div class="book-item">
+            <a href="{% url 'movie_detail' movie_id=movie.id %}">
+              <img src="{{ movie.cover_image.url }}" alt="{{ movie.title }}" class="book-cover">
+            </a>
+            <p class="book-title-home">{{ movie.title }}</p>
+          </div>
+      {% empty %}
+          <p>No movies found.</p>
+      {% endfor %}
   </div>
 {% endblock %}

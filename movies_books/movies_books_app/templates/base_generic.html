@@ -30,6 +30,7 @@
             <input class="search-input" type="text" name="query" value="{{ query|default_if_none:'' }}" placeholder="Search Books and Movies">
             <button type="submit" id="searchButton">Search</button>
           </form>
+          <a href="{% url 'recommendations' %}" class="nav-link">Recommendations</a>
           <a href="{% url 'chatroom_list' %}" class="nav-link">Chat Rooms</a>
           <a href="{% url 'view_profile' username=user.username %}" class="nav-link">Profile</a>
         {% else %}

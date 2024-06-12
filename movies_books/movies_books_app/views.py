@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from .forms import SignupForm, LoginForm, UpdateProfileForm, CreateChatRoomForm
 from django.contrib.auth.models import User
 from django.urls import reverse
-from .models import Book, Genre, Review, ChatRoom, Message
+from .models import Book, Movie, Genre, Review, ChatRoom, Message
 
 # view for the website signup page
 def user_signup(request):
@@ -54,15 +54,26 @@ def book_list(request):
     book_list = Book.objects.all()
     return render(request, 'books_home.html', {'book_list': book_list})
 
-@login_required(login_url='login')
-def movie_view(request):
-    return render(request ,'movies_home.html')
+# view that will show all the movies stored in the database
+def movie_list(request):
+    movie_list = Movie.objects.all()
+    return render(request ,'movies_home.html', {'movie_list': movie_list})
+
+# view that will show the users recommendations based on the movie that they search up
+def recommendations(request):
+    return render(request ,'recommendations.html')
 
 # view that handles showing the details of an indivudual book
 @login_required(login_url='login_redirect')
 def book_detail(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
     return render(request, 'book_detail.html', {'book': book})
+
+# view that handles showing the details of an indivudual movie
+@login_required(login_url='login_redirect')
+def movie_detail(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    return render(request, 'movie_detail.html', {'movie': movie})
 
 #view for the search function on the home page
 def search_results(request):
