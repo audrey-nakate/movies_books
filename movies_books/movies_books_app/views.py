@@ -97,7 +97,7 @@ def submit_review(request, book_id):
 
     book = get_object_or_404(Book, pk=book_id) #book_id is used in the submit_review url to associate a review with a book
     # Create a new Review object and save it to the database
-    review = Review.objects.create(book=book, rating=rating, comment=comment)
+    review = Review.objects.create(book=book, reviewer=request.user, rating=rating, comment=comment)
     # Return a JSON response with the newly created review data
     return JsonResponse({'id': review.id, 'rating': review.rating, 'comment': review.comment})
 

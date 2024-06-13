@@ -33,6 +33,7 @@ class Movie(models.Model):
 class Review(models.Model):
     '''Model for reviews made by users'''
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='reviews')
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='review')
     rating = models.IntegerField()
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
