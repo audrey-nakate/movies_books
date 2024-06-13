@@ -44,7 +44,7 @@
         <ul id="reviews">
             {% for review in book.reviews.all %}
                 <li>
-                    <p>{{ user.username }} commented on {{ review.created_at }}</p>
+                    <p>{{ review.reviewer}} commented on {{ review.created_at }}</p>
                     <p>{{ review.comment }}</p>
                 </li>
             {% empty %}

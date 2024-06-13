@@ -1,7 +1,7 @@
 .chatroom-container {
     display: flex;
     flex-direction: column;
-    height: 92vh;
+    height: 70vh;
 }
 
 /* Style for the chatroom header */
