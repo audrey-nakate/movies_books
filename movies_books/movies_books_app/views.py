@@ -51,7 +51,6 @@ def login_redirect_view(request):
 
 # view that will list all the books stored in the database
 # will also be the home page or landing page of the site
-@login_required(login_url='login')
 def book_list(request):
     book_list = Book.objects.all()
     return render(request, 'books_home.html', {'book_list': book_list})
