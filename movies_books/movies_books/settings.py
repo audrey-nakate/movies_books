@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import django_heroku
+import dj_database_url
 import os
 from channels.auth import AuthMiddlewareStack
 
@@ -28,8 +30,8 @@ SECRET_KEY = 'django-insecure-=h3c%56kzypw7fjwtcqw372+ojrtf(f28gtr9=-%k26c6-4m93
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
+  
 
 # Application definition
 
@@ -136,6 +138,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = 'media/'
+
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+django_heroku.settings(locals())
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
